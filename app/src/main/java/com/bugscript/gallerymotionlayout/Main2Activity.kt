@@ -25,8 +25,6 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
-        val draggableFrame : ElasticDragDismissLinearLayout = findViewById(R.id.draggable_frame)
-
         val bundle = intent.extras
         val imageUrl = bundle?.get("IMAGE").toString()
 
@@ -70,27 +68,5 @@ class Main2Activity : AppCompatActivity() {
                     }
                 }
             })
-
-        draggableFrame.addListener(object : ElasticDragDismissCallback() {
-            override fun onDrag(elasticOffset: Float, elasticOffsetPixels: Float, rawOffset: Float, rawOffsetPixels: Float) {}
-
-            override fun onDragDismissed() {
-                // if we drag dismiss downward then the default reversal of the enter
-                // transition would slide content upward which looks weird. So reverse it.
-                if (draggableFrame.getTranslationY() > 0 && Build.VERSION.SDK_INT >= 21) {
-                    window.returnTransition = TransitionInflater.from(this@Main2Activity)
-                        .inflateTransition(R.transition.about_return_downward)
-                }
-                if (Build.VERSION.SDK_INT >= 21) {
-                    finishAfterTransition()
-                } else {
-                    finish()
-                }
-            }
-        })
-        if (Build.VERSION.SDK_INT >= 21) {
-            draggableFrame.addListener(SystemChromeFader(this))
-        }
-
     }
 }
